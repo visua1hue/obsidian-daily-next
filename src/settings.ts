@@ -23,7 +23,7 @@ export class SettingTab extends PluginSettingTab {
 
 		new Setting(containerEl)
 			.setName('Skip weekends')
-			.setDesc('When enabled, "next day" skips Saturday and Sunday.')
+			.setDesc('When disabled, the next day includes weekends.')
 			.addToggle(toggle =>
 				toggle
 					.setValue(this.plugin.settings.skipWeekends)

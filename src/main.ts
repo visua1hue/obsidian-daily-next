@@ -1,4 +1,4 @@
-import { Notice, Plugin, TFile, normalizePath } from 'obsidian';
+import { Notice, Plugin, normalizePath } from 'obsidian';
 import { DEFAULT_SETTINGS, PluginSettings, SettingTab } from './settings';
 
 export default class NextWeekdayPlugin extends Plugin {
@@ -26,8 +26,10 @@ export default class NextWeekdayPlugin extends Plugin {
 
 	private async openNextWeekdayNote(): Promise<void> {
 		try {
-			const dn = (this.app as any).internalPlugins.getPluginById('daily-notes')?.instance;
-			const opts = dn?.options as { format?: string; folder?: string; template?: string } | undefined;
+			type DailyNotesOpts = { format?: string; folder?: string; template?: string };
+			type InternalPlugins = { getPluginById(id: string): { instance: { options?: DailyNotesOpts } } | null };
+			const ip = (this.app as unknown as { internalPlugins: InternalPlugins }).internalPlugins;
+			const opts = ip.getPluginById('daily-notes')?.instance?.options;
 			const format   = opts?.format   || 'YYYY-MM-DD'; // || catches empty string
 			const folder   = opts?.folder   ?? '';
 			const template = opts?.template ?? '';
