@@ -29,4 +29,4 @@ Install [BRAT](https://github.com/TfTHacker/obsidian42-brat), add the repo above
 
 ## License
 
-[MIT](LICENSE)
+[0BSD](LICENSE)
