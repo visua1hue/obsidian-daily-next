@@ -1,0 +1,9 @@
+{
+	"id": "daily-next",
+	"name": "Daily Next",
+	"version": "1.0.0",
+	"minAppVersion": "1.4.0",
+	"description": "Opens or creates the next weekday's daily note in one command. Skips Saturday and Sunday.",
+	"author": "MikĒ",
+	"isDesktopOnly": false
+}
