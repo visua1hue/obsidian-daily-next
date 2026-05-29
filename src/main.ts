@@ -31,8 +31,8 @@ export default class NextWeekdayPlugin extends Plugin {
 	private substituteVars(content: string, date: ReturnType<typeof moment>, title: string, dateFormat: string): string {
 		return content
 			.replace(/{{title}}/gi, title)
-			.replace(/{{date(?::([^}]+))?}}/gi, (_, fmt) => date.format(fmt ?? dateFormat))
-			.replace(/{{time(?::([^}]+))?}}/gi, (_, fmt) => window.moment().format(fmt ?? 'HH:mm'));
+			.replace(/{{date(?::([^}]+))?}}/gi, (_, fmt: string | undefined) => date.format(fmt ?? dateFormat))
+			.replace(/{{time(?::([^}]+))?}}/gi, (_, fmt: string | undefined) => window.moment().format(fmt ?? 'HH:mm'));
 	}
 
 	private async readTemplate(templatePath: string): Promise<string> {
