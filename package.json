@@ -1,6 +1,6 @@
 {
 	"name": "daily-next",
-	"version": "1.0.0",
+	"version": "1.1.0",
 	"description": "Opens or creates the next weekday's daily note in one command.",
 	"main": "main.js",
 	"type": "module",
