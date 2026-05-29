@@ -8,6 +8,10 @@ export default class NextWeekdayPlugin extends Plugin {
 		await this.loadSettings();
 		this.addSettingTab(new SettingTab(this.app, this));
 
+		this.addRibbonIcon('calendar-check', "Open next weekday's daily note", () => {
+			void this.openNextWeekdayNote();
+		});
+
 		this.addCommand({
 			id: 'open-next-weekday-daily-note',
 			name: "Open next weekday's daily note",
