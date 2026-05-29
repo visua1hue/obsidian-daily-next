@@ -1,4 +1,4 @@
-import { Notice, Plugin, normalizePath } from 'obsidian';
+import { Notice, Plugin, moment, normalizePath } from 'obsidian';
 import { DEFAULT_SETTINGS, PluginSettings, SettingTab } from './settings';
 
 export default class NextWeekdayPlugin extends Plugin {
@@ -28,6 +28,13 @@ export default class NextWeekdayPlugin extends Plugin {
 		return d;
 	}
 
+	private substituteVars(content: string, date: ReturnType<typeof moment>, title: string, dateFormat: string): string {
+		return content
+			.replace(/{{title}}/gi, title)
+			.replace(/{{date(?::([^}]+))?}}/gi, (_, fmt) => date.format(fmt ?? dateFormat))
+			.replace(/{{time(?::([^}]+))?}}/gi, (_, fmt) => window.moment().format(fmt ?? 'HH:mm'));
+	}
+
 	private async readTemplate(templatePath: string): Promise<string> {
 		const norm = normalizePath(templatePath);
 		// daily-notes stores template paths without .md extension
@@ -51,7 +58,8 @@ export default class NextWeekdayPlugin extends Plugin {
 			const folder   = opts?.folder   ?? '';
 			const template = opts?.template ?? '';
 
-			const title = this.nextWeekday().format(format);
+			const date  = this.nextWeekday();
+			const title = date.format(format);
 			const path  = normalizePath(folder ? `${folder}/${title}.md` : `${title}.md`);
 
 			let file = this.app.vault.getFileByPath(path);
@@ -63,7 +71,8 @@ export default class NextWeekdayPlugin extends Plugin {
 					}
 				}
 
-				const content = template ? await this.readTemplate(template) : '';
+				const raw     = template ? await this.readTemplate(template) : '';
+				const content = raw ? this.substituteVars(raw, date, title, format) : '';
 
 				try {
 					file = await this.app.vault.create(path, content);
